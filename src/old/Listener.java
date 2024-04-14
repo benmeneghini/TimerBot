@@ -1,21 +1,24 @@
-package modules;
+package controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import modules.Boss;
+import model.Boss;
+import model.Server;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import service.Timer;
 
-public class Controller extends ListenerAdapter {
+public class Listener extends ListenerAdapter {
 
-    private List<String> bossStrings = Arrays.asList("falgren", "doomclaw", "bonehead", "redbane", "goretusk", "rockbelly", "coppinger", "copp",
+    private List<String> bossStrings = Arrays.asList("falgren", "doomclaw", "bonehead", "redbane", "goretusk",
+            "rockbelly", "coppinger", "copp",
             "eye", "swampie", "swampy", "woody", "chained", "chain", "grom", "pyrus",
             "py", "155", "spider", "160", "priest", "165", "king", "170", "bolg", "180", "snorri",
             "185", "190", "195", "200", "205", "210", "215", "unox",
-            "north ring", "north","east ring", "east", "centre ring", "centre", "center", "south ring", "south",
+            "north ring", "north", "east ring", "east", "centre ring", "centre", "center", "south ring", "south",
             "aggy", "aggorath", "hrung", "hrungir", "mord", "mordris", "necro", "necromancer",
             "prot", "proteus", "gele", "gelebron", "bt", "bloodthorn", "dino", "dhio", "dhiothu");
 
@@ -26,7 +29,9 @@ public class Controller extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
         String[] args = event.getMessage().getContentRaw().split("\\s+");
 
-        if (args[0].equalsIgnoreCase("server") && args.length >= 2 && args.length <= 3 && (event.getAuthor().getAsTag().equalsIgnoreCase("Yeek's Bot#7154") || event.getAuthor().getAsTag().equalsIgnoreCase("yeek#0000"))) {
+        if (args[0].equalsIgnoreCase("server") && args.length >= 2 && args.length <= 3
+                && (event.getAuthor().getAsTag().equalsIgnoreCase("Yeek's Bot#7154")
+                        || event.getAuthor().getAsTag().equalsIgnoreCase("yeek#0000"))) {
             if (args[1].equalsIgnoreCase("new") && args.length == 3) {
                 newServer(args[2], event);
             } else if (args[1].equalsIgnoreCase("unsync") && args.length == 2) {
@@ -36,18 +41,25 @@ public class Controller extends ListenerAdapter {
             } else if (args[1].equalsIgnoreCase("delete") && args.length == 3) {
                 deleteServer(args[2], event);
             }
-        } else if (args[0].equalsIgnoreCase("showservers") && (event.getAuthor().getAsTag().equalsIgnoreCase("Yeek's Bot#7154") || event.getAuthor().getAsTag().equalsIgnoreCase("yeek#0000")) && args.length == 1) {
+        } else if (args[0].equalsIgnoreCase("showservers")
+                && (event.getAuthor().getAsTag().equalsIgnoreCase("Yeek's Bot#7154")
+                        || event.getAuthor().getAsTag().equalsIgnoreCase("yeek#0000"))
+                && args.length == 1) {
             showServers(event);
-        } else if (args[0].equalsIgnoreCase("ping") && (event.getAuthor().getAsTag().equalsIgnoreCase("Yeek's Bot#7154") || event.getAuthor().getAsTag().equalsIgnoreCase("yeek#0000"))) {
+        } else if (args[0].equalsIgnoreCase("ping") && (event.getAuthor().getAsTag().equalsIgnoreCase("Yeek's Bot#7154")
+                || event.getAuthor().getAsTag().equalsIgnoreCase("yeek#0000"))) {
             if (args[1].equalsIgnoreCase("add") && args.length == 4) {
                 addPing(args[2], args[3], event);
             } else if (args[1].equalsIgnoreCase("remove") && args.length == 3) {
                 removePing(args[2], event);
             }
-        } else if (args[0].equalsIgnoreCase("setup") && (event.getAuthor().getAsTag().equalsIgnoreCase("Yeek's Bot#7154") || event.getAuthor().getAsTag().equalsIgnoreCase("yeek#0000")) && args.length == 2) {
+        } else if (args[0].equalsIgnoreCase("setup")
+                && (event.getAuthor().getAsTag().equalsIgnoreCase("Yeek's Bot#7154")
+                        || event.getAuthor().getAsTag().equalsIgnoreCase("yeek#0000"))
+                && args.length == 2) {
             setup(args[1], event);
-        }
-        else if (!(findServer(event) == null) && (!(findServer(event).getChannel() == null)) && findServer(event).getChannel().equals(event.getChannel()) && !(event.getAuthor().isBot())) {
+        } else if (!(findServer(event) == null) && (!(findServer(event).getChannel() == null))
+                && findServer(event).getChannel().equals(event.getChannel()) && !(event.getAuthor().isBot())) {
             if (args[0].equalsIgnoreCase("soon")) { // User typed "soon" command.
                 soon(event); // Calls soon method.
 
@@ -64,7 +76,7 @@ public class Controller extends ListenerAdapter {
                         usageError("set", event);
                     } else {
 
-                        //This part checks if the time is in the correct format.
+                        // This part checks if the time is in the correct format.
                         List<String> time = new ArrayList<String>();
                         if (args.length == 3) {
                             if (args[2].endsWith("d") || args[2].endsWith("h") || args[2].endsWith("m")) {
@@ -74,7 +86,8 @@ public class Controller extends ListenerAdapter {
                                 usageError("set", event);
                             }
                         } else if (args.length == 4) {
-                            if ((args[2].endsWith("d") && args[3].endsWith("h")) || (args[2].endsWith("d") && args[3].endsWith("m"))) {
+                            if ((args[2].endsWith("d") && args[3].endsWith("h"))
+                                    || (args[2].endsWith("d") && args[3].endsWith("m"))) {
                                 time.add(args[2]);
                                 time.add(args[3]);
                                 set(boss, time, event);
@@ -113,7 +126,10 @@ public class Controller extends ListenerAdapter {
                 } else {
                     reset(boss, event);
                 }
-            } else if (bossStrings.contains(args[0].toLowerCase()) && (args.length == 1 || args.length == 2)) { // Timing a boss command.
+            } else if (bossStrings.contains(args[0].toLowerCase()) && (args.length == 1 || args.length == 2)) { // Timing
+                                                                                                                // a
+                                                                                                                // boss
+                                                                                                                // command.
                 Boss boss = null; // Gets the boss.
                 for (Boss i : findServer(event).getBosses()) { // Get which boss.
                     if (i.getName().equalsIgnoreCase(args[0]) || i.getNicks().contains(args[0].toLowerCase())) {
@@ -134,7 +150,10 @@ public class Controller extends ListenerAdapter {
                 usageError("none", event);
             }
 
-        } else if (args[0].equalsIgnoreCase("setchannel") && (event.getAuthor().getAsTag().equalsIgnoreCase("Yeek's Bot#7154") || event.getAuthor().getAsTag().equalsIgnoreCase("yeek#0000")) && args.length == 1) {
+        } else if (args[0].equalsIgnoreCase("setchannel")
+                && (event.getAuthor().getAsTag().equalsIgnoreCase("Yeek's Bot#7154")
+                        || event.getAuthor().getAsTag().equalsIgnoreCase("yeek#0000"))
+                && args.length == 1) {
             setChannel(event);
         }
 
@@ -243,10 +262,10 @@ public class Controller extends ListenerAdapter {
             EmbedBuilder soon = new EmbedBuilder();
             soon.setTitle("⏳ Boss Times ⏳");
             soon.setDescription(times);
-//			soon.addField("Creator", "Yeek", false);
+            // soon.addField("Creator", "Yeek", false);
             soon.setColor(0x630505);
-            soon.setFooter("Pinged by " + event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
-
+            soon.setFooter("Pinged by " + event.getMember().getUser().getAsTag(),
+                    event.getMember().getUser().getAvatarUrl());
 
             event.getChannel().sendTyping().queue();
             event.getChannel().sendMessageEmbeds(soon.build()).queue();
@@ -295,7 +314,7 @@ public class Controller extends ListenerAdapter {
         int mins = 0;
         if (time.size() == 1) {
             int size = time.get(0).length();
-            try{
+            try {
                 int number = Integer.parseInt(time.get(0).substring(0, size - 1));
                 if (time.get(0).endsWith("d")) {
                     mins = 1440 * number;
@@ -304,10 +323,10 @@ public class Controller extends ListenerAdapter {
                 } else if (time.get(0).endsWith("m")) {
                     mins = number;
                 }
+            } catch (NumberFormatException ex) {
             }
-            catch (NumberFormatException ex){}
         } else if (time.size() == 2) {
-            try{
+            try {
                 int size = time.get(0).length();
                 int number = Integer.parseInt(time.get(0).substring(0, size - 1));
                 if (time.get(0).endsWith("d")) {
@@ -327,10 +346,10 @@ public class Controller extends ListenerAdapter {
                 } else if (time.get(1).endsWith("m")) {
                     mins += number;
                 }
+            } catch (NumberFormatException ex) {
             }
-            catch (NumberFormatException ex){}
         } else if (time.size() == 3) {
-            try{
+            try {
                 int size = time.get(0).length();
                 int number = Integer.parseInt(time.get(0).substring(0, size - 1));
                 if (time.get(0).endsWith("d")) {
@@ -360,8 +379,8 @@ public class Controller extends ListenerAdapter {
                 } else if (time.get(2).endsWith("m")) {
                     mins += number;
                 }
+            } catch (NumberFormatException ex) {
             }
-            catch (NumberFormatException ex){}
         }
         return mins;
     }
@@ -374,7 +393,8 @@ public class Controller extends ListenerAdapter {
         } else {
             findServer(event).setChannel(event.getChannel());
             event.getChannel().sendTyping().queue();
-            event.getChannel().sendMessage("Set " + event.getChannel().getAsMention() + " as the timer channel.").queue();
+            event.getChannel().sendMessage("Set " + event.getChannel().getAsMention() + " as the timer channel.")
+                    .queue();
         }
     }
 
@@ -407,8 +427,8 @@ public class Controller extends ListenerAdapter {
         help.setTitle("Info");
         help.setDescription(helpMessage);
         help.setColor(0x2403fc);
-        help.setFooter("Pinged by " + event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
-
+        help.setFooter("Pinged by " + event.getMember().getUser().getAsTag(),
+                event.getMember().getUser().getAvatarUrl());
 
         event.getChannel().sendTyping().queue();
         event.getChannel().sendMessageEmbeds(help.build()).queue();
@@ -428,8 +448,8 @@ public class Controller extends ListenerAdapter {
         bossList.setTitle("Bosses");
         bossList.setDescription(bossListMessage);
         bossList.setColor(0x2403fc);
-        bossList.setFooter("Pinged by " + event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
-
+        bossList.setFooter("Pinged by " + event.getMember().getUser().getAsTag(),
+                event.getMember().getUser().getAvatarUrl());
 
         event.getChannel().sendTyping().queue();
         event.getChannel().sendMessageEmbeds(bossList.build()).queue();
@@ -457,7 +477,9 @@ public class Controller extends ListenerAdapter {
             event.getChannel().sendTyping().queue();
             event.getChannel().sendMessage("There is already a server with that name.").queue();
         } else {
-            servers.add(new Server(serverName, event.getGuild().getId())); // Creates a new station, with station name and server name, then adds to list of stations.
+            servers.add(new Server(serverName, event.getGuild().getId())); // Creates a new station, with station name
+                                                                           // and server name, then adds to list of
+                                                                           // stations.
             event.getChannel().sendTyping().queue();
             event.getChannel().sendMessage("Created new server for this server's timers.").queue();
         }
@@ -466,8 +488,7 @@ public class Controller extends ListenerAdapter {
     public void unsyncServer(MessageReceivedEvent event) {
         Server server = null;
         Server serverRemove = null;
-        outerloop:
-        for (Server i : servers) {
+        outerloop: for (Server i : servers) {
             for (Server syncedServer : i.getSyncedServers()) {
                 if (syncedServer.getServerId().equalsIgnoreCase(event.getGuild().getId())) {
                     server = i;
@@ -481,17 +502,18 @@ public class Controller extends ListenerAdapter {
         event.getChannel().sendMessage("Removed this server from it's synced timer.").queue();
     }
 
-    public void syncServer(String serverName, MessageReceivedEvent event) { // Syncs a server up with a station.
-        Server currentServer = findServer(event);
-        for (Server i : servers) {
-            if (i.getServerName().equalsIgnoreCase(serverName)) {
-                i.syncServer(currentServer);
-                break;
-            }
-        }
-        event.getChannel().sendTyping().queue();
-        event.getChannel().sendMessage("Synced this server's timers with server: " + serverName).queue();
-    }
+    // public void syncServer(String serverName, MessageReceivedEvent event) {
+    // Server currentServer = findServer(event);
+    // for (Server i : servers) {
+    // if (i.getServerName().equalsIgnoreCase(serverName)) {
+    // i.syncServer(currentServer);
+    // break;
+    // }
+    // }
+    // event.getChannel().sendTyping().queue();
+    // event.getChannel().sendMessage("Synced this server's timers with server: " +
+    // serverName).queue();
+    // }
 
     public void deleteServer(String serverName, MessageReceivedEvent event) {
         Server server = null;

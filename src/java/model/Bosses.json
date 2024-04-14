@@ -1,0 +1,327 @@
+
+[
+    {
+        "name": "Dhiothu",
+        "nicknames": ["dino", "dhio", "d2"],
+        "type": "ENDGAME",
+        "respawn": 2160,
+        "window": 2160
+    },
+
+    {
+        "name": "Bloodthorn",
+        "nicknames": ["bt"],
+        "type": "ENDGAME",
+        "respawn": 2160,
+        "window": 2160
+    },
+
+    {
+        "name": "Gelebron",
+        "nicknames": ["gele"],
+        "type": "ENDGAME",
+        "respawn": 2160,
+        "window": 2160
+    },
+
+    {
+        "name": "Proteus",
+        "nicknames": ["prot", "base", "prime"],
+        "type": "ENDGAME",
+        "respawn": 1080,
+        "window": 10
+    },
+
+
+
+
+
+    {
+        "name": "Necromancer",
+        "nicknames": ["necro"],
+        "type": "MIDRAID",
+        "respawn": 1440,
+        "window": 1440
+    },
+
+    {
+        "name": "Mordris",
+        "nicknames": ["mord", "mordy"],
+        "type": "MIDRAID",
+        "respawn": 1440,
+        "window": 1440
+    },
+
+    {
+        "name": "Hrungir",
+        "nicknames": ["hrung", "muk"],
+        "type": "MIDRAID",
+        "respawn": 1440,
+        "window": 1440
+    },
+
+    {
+        "name": "Aggorath",
+        "nicknames": ["aggy"],
+        "type": "MIDRAID",
+        "respawn": 1440,
+        "window": 1440
+    },
+
+
+
+
+
+    {
+        "name": "North",
+        "nicknames": ["northring"],
+        "type": "RING",
+        "respawn": 215,
+        "window": 50
+    },
+
+    {
+        "name": "Center",
+        "nicknames": ["centre", "centrering", "centerring"],
+        "type": "RING",
+        "respawn": 215,
+        "window": 50
+    },
+
+    {
+        "name": "South",
+        "nicknames": ["southring"],
+        "type": "RING",
+        "respawn": 215,
+        "window": 50
+    },
+
+    {
+        "name": "East",
+        "nicknames": ["eastring"],
+        "type": "RING",
+        "respawn": 215,
+        "window": 50
+    },
+
+
+
+
+
+    {
+        "name": "215",
+        "nicknames": ["unox"],
+        "type": "EDL",
+        "respawn": 134,
+        "window": 5
+    },
+
+    {
+        "name": "210",
+        "nicknames": [],
+        "type": "EDL",
+        "respawn": 125,
+        "window": 5
+    },
+
+    {
+        "name": "205",
+        "nicknames": [],
+        "type": "EDL",
+        "respawn": 117,
+        "window": 4
+    },
+
+    {
+        "name": "200",
+        "nicknames": [],
+        "type": "EDL",
+        "respawn": 108,
+        "window": 5
+    },
+
+    {
+        "name": "195",
+        "nicknames": [],
+        "type": "EDL",
+        "respawn": 89,
+        "window": 4
+    },
+
+    {
+        "name": "190",
+        "nicknames": [],
+        "type": "EDL",
+        "respawn": 81,
+        "window": 3
+    },
+
+    {
+        "name": "185",
+        "nicknames": [],
+        "type": "EDL",
+        "respawn": 72,
+        "window": 3
+    },
+
+
+
+
+
+    {
+        "name": "180",
+        "nicknames": ["snorri"],
+        "type": "DL",
+        "respawn": 88,
+        "window": 3
+    },
+
+    {
+        "name": "170",
+        "nicknames": [],
+        "type": "DL",
+        "respawn": 78,
+        "window": 3
+    },
+
+    {
+        "name": "165",
+        "nicknames": [],
+        "type": "DL",
+        "respawn": 73,
+        "window": 3
+    },
+
+    {
+        "name": "160",
+        "nicknames": [],
+        "type": "DL",
+        "respawn": 68,
+        "window": 3
+    },
+
+    {
+        "name": "155",
+        "nicknames": [],
+        "type": "DL",
+        "respawn": 63,
+        "window": 3
+    },
+
+
+
+
+
+    {
+        "name": "Pyrus",
+        "nicknames": ["py"],
+        "type": "FROZEN",
+        "respawn": 58,
+        "window": 3
+    },
+
+    {
+        "name": "Grom",
+        "nicknames": [],
+        "type": "FROZEN",
+        "respawn": 48,
+        "window": 3
+    },
+
+    {
+        "name": "Chained",
+        "nicknames": ["chain"],
+        "type": "FROZEN",
+        "respawn": 43,
+        "window": 3
+    },
+
+    {
+        "name": "Woody",
+        "nicknames": [],
+        "type": "FROZEN",
+        "respawn": 38,
+        "window": 3
+    },
+
+    {
+        "name": "Swampie",
+        "nicknames": ["swampy"],
+        "type": "FROZEN",
+        "respawn": 33,
+        "window": 3
+    },
+
+    {
+        "name": "Eye",
+        "nicknames": [],
+        "type": "FROZEN",
+        "respawn": 28,
+        "window": 3
+    },
+
+
+
+
+
+    {
+        "name": "Coppinger",
+        "nicknames": ["copp"],
+        "type": "METEORIC",
+        "respawn": 20,
+        "window": 5
+    },
+
+    {
+        "name": "Rockbelly",
+        "nicknames": [],
+        "type": "METEORIC",
+        "respawn": 15,
+        "window": 5
+    },
+
+    {
+        "name": "Goretusk",
+        "nicknames": [],
+        "type": "METEORIC",
+        "respawn": 20,
+        "window": 5
+    },
+
+    {
+        "name": "Redbane",
+        "nicknames": [],
+        "type": "FROZEN",
+        "respawn": 20,
+        "window": 5
+    },
+
+    {
+        "name": "Bonehad",
+        "nicknames": [],
+        "type": "METEORIC",
+        "respawn": 15,
+        "window": 5
+    },
+
+    {
+        "name": "Doomclaw",
+        "nicknames": [],
+        "type": "METEORIC",
+        "respawn": 7,
+        "window": 5
+    },
+
+
+
+
+
+    {
+        "name": "Falgren",
+        "nicknames": ["falg"],
+        "type": "WARDEN",
+        "respawn": 45,
+        "window": 5
+    }
+
+]

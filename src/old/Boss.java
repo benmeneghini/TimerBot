@@ -1,5 +1,7 @@
-package modules;
+package model;
 
+import java.sql.Time;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Boss {

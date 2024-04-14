@@ -1,15 +1,17 @@
-package modules;
+package service;
 
-import modules.Boss;
+import controller.Listener;
+import model.Boss;
+import model.Server;
 
 public class Timer implements Runnable {
 
     private Boss boss;
     private int time; // in minutes.
-    private Controller controllerClass;
+    private Listener controllerClass;
     private Server server;
 
-    public Timer(Boss boss, int time, Controller controllerClass, Server server) {
+    public Timer(Boss boss, int time, Listener controllerClass, Server server) {
         this.boss = boss;
         this.time = time;
         this.controllerClass = controllerClass;
@@ -26,7 +28,8 @@ public class Timer implements Runnable {
             time -= 1;
             try {
                 Thread.sleep(60000); // Sleep for 1 minute.
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+            }
         }
         if (time > 0 && boss.getIsTimed()) {
             server.ping(boss);
@@ -39,11 +42,13 @@ public class Timer implements Runnable {
             time -= 1;
             try {
                 Thread.sleep(60000); // Sleep for 1 minute.
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+            }
         }
         try {
             Thread.sleep(1000);
-        } catch (InterruptedException e1) {}
+        } catch (InterruptedException e1) {
+        }
         if (time == 0) { // Normal run through. This avoids some issues i forgot.
             time = boss.getWindow();
             boss.setCurrentTime(boss.getWindow());
@@ -54,7 +59,8 @@ public class Timer implements Runnable {
             time -= 1;
             try {
                 Thread.sleep(60000); // Sleep for 1 minute.
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+            }
         }
         controllerClass.removeTimer(this);
         if (time == 0) {
@@ -70,5 +76,5 @@ public class Timer implements Runnable {
     public void cancel() {
         time = -10000;
     }
-    
+
 }
