@@ -217,23 +217,26 @@ public class Server {
 
     public void updateTimers() {
         for (Boss boss : bosses) {
-            if (boss.getIsTimed()) {
-                if (boss.getCurrentTime() == 0) {
-                    if (boss.getIsDue()) {
-                        boss.setIsDue(false);
-                        boss.setIsTimed(false);
-                    } else {
-                        boss.setIsDue(true);
-                        boss.setCurrentTime(boss.getWindow());
-                    }
+            if (!boss.getIsTimed()) {
+                continue;
+            }
+
+            if (boss.getCurrentTime() == 0) {
+                if (boss.getIsDue()) {
+                    boss.setIsDue(false);
+                    boss.setIsTimed(false);
+                    boss.setCurrentTime(0);
                 } else {
-                    boss.decrementTime();
-                    
-                    if (boss.getCurrentTime() == 3) {
-                        ping(boss);
-                        for (Server s : syncedServers) {
-                            s.ping(boss);
-                        }
+                    boss.setIsDue(true);
+                    boss.setCurrentTime(boss.getWindow());
+                }
+            } else {
+                boss.decrementTime();
+                
+                if (boss.getCurrentTime() == 3 && !boss.getIsDue()) {
+                    ping(boss);
+                    for (Server s : syncedServers) {
+                        s.ping(boss);
                     }
                 }
             }
