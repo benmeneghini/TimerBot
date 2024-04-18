@@ -3,13 +3,10 @@ package model;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.Boss;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 
-// import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class Server {
 
@@ -43,8 +40,9 @@ public class Server {
 
         try {
             // Read the JSON file and map it to an array of Boss objects
-            Boss[] jsonBosses = mapper.readValue(new File("src/java/model/Bosses.json"), Boss[].class);
-            // Boss[] jsonBosses = mapper.readValue(new File("/home/container/Bosses.json"), Boss[].class);
+
+            // Boss[] jsonBosses = mapper.readValue(new File("src/java/model/Bosses.json"), Boss[].class);
+            Boss[] jsonBosses = mapper.readValue(new File("/home/container/Bosses.json"), Boss[].class);
 
             for (Boss boss : jsonBosses) {
                 bosses.add(boss);
@@ -215,6 +213,31 @@ public class Server {
 
     public String getServerName() {
         return name;
+    }
+
+    public void updateTimers() {
+        for (Boss boss : bosses) {
+            if (boss.getIsTimed()) {
+                if (boss.getCurrentTime() == 0) {
+                    if (boss.getIsDue()) {
+                        boss.setIsDue(false);
+                        boss.setIsTimed(false);
+                    } else {
+                        boss.setIsDue(true);
+                        boss.setCurrentTime(boss.getWindow());
+                    }
+                } else {
+                    boss.decrementTime();
+                    
+                    if (boss.getCurrentTime() == 3) {
+                        ping(boss);
+                        for (Server s : syncedServers) {
+                            s.ping(boss);
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

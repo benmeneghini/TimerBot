@@ -1,4 +1,5 @@
 
+import service.Timer;
 import javax.security.auth.login.LoginException;
 
 import control.CommandController;
@@ -15,14 +16,18 @@ public class Main {
     public static void main(String[] args) throws LoginException {
         // OTQyNTI1OTE5NjczODYwMTM2.GKqeSu.UFZdnh6mGq-mACZ4xk6HGNAkfkCBrvTlmEQWq8 main
         // OTk0NzU5NDA2NjU2OTQ2MjA2.GiK5GM.bWNRWGV6sR5Xtqq9eMGAbLfqRi9IhcNxsnM2DQ test
-        JDA jda = JDABuilder.createDefault("OTk0NzU5NDA2NjU2OTQ2MjA2.GiK5GM.bWNRWGV6sR5Xtqq9eMGAbLfqRi9IhcNxsnM2DQ")
+        JDA jda = JDABuilder.createDefault("OTQyNTI1OTE5NjczODYwMTM2.GKqeSu.UFZdnh6mGq-mACZ4xk6HGNAkfkCBrvTlmEQWq8")
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build();
 
         jda.getPresence().setStatus(OnlineStatus.ONLINE);
         jda.getPresence().setActivity(Activity.playing("Celtic Heroes"));
 
-        jda.addEventListener(new CommandController());
+        CommandController commandController = new CommandController();
+
+        jda.addEventListener(commandController);
+
+        new Thread(new Timer(commandController)).start();
 
         System.out.println("Bot is online!");
     }

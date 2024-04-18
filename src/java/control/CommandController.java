@@ -3,8 +3,6 @@ package control;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import service.RespawnTimer;
-import service.WindowTimer;
 
 import java.util.Arrays;
 import java.time.LocalDateTime;
@@ -19,7 +17,6 @@ public class CommandController extends ListenerAdapter {
 
     private String yeekTag = "yeek#0000";
     private String yeekBotTag = "yeeksbot#0000";
-    // private List<String> bossNames = new ArrayList<>();
     private List<String> bossNames = Arrays.asList("falgren", "falg",
             "doomclaw", "bonehead", "redbane", "goretusk", "rockbelly", "coppinger", "copp",
             "eye", "swampie", "swampy", "woody", "chained", "chain", "grom", "pyrus", "py",
@@ -29,9 +26,6 @@ public class CommandController extends ListenerAdapter {
             "aggy", "aggorath", "hrung", "hrungir", "mord", "mordris", "mordy", "necro", "necromancer",
             "prot", "proteus", "base", "prime", "gele", "gelebron", "bt", "bloodthorn", "dino", "dhio", "dhiothu",
             "d2");
-
-    private List<RespawnTimer> respawnTimers = new ArrayList<RespawnTimer>();
-    private List<WindowTimer> windowTimers = new ArrayList<WindowTimer>();
 
     private List<Server> servers = new ArrayList<Server>();
 
@@ -48,7 +42,7 @@ public class CommandController extends ListenerAdapter {
             + "*Soon* - Shows a list of all boss timers.\n"
             + "*[Boss]* - Times a specific boss.\n"
             + "*Set [boss] {day}d {hour}h {minute}m* - Sets a boss to a specific time.\n"
-            + "*Window [boss] {day}d {hour}h {minute}m* - Sets a boss's window to a specific time.\n"
+            + "*Window [boss] {day}d {hour}h {minute}m* - Sets a boss due with a window to a specific time.\n"
             + "*Reset [boss]* - Removes the boss's timer.\n"
             + "*Bosslist* - Shows a list of timeable bosses.\n"
             + "*Gametime* - Shows the current game time.\n"
@@ -342,55 +336,45 @@ public class CommandController extends ListenerAdapter {
         if (!egs.isEmpty()) {
             soon.addField(EG_TITLE, egs, false);
             hasBosses = true;
-            // timeMessage += EG_TITLE + egs;
         }
 
         if (!mids.isEmpty()) {
             soon.addField(MIDS_TITLE, mids, false);
             hasBosses = true;
-            // timeMessage += MIDS_TITLE + mids;
         }
 
         if (!rings.isEmpty()) {
             soon.addField(RINGS_TITLE, rings, false);
             hasBosses = true;
-            // timeMessage += RINGS_TITLE + rings;
         }
 
         if (!edl.isEmpty()) {
             soon.addField(EDL_TITLE, edl, false);
             hasBosses = true;
-            // timeMessage += EDL_TITLE + edl;
         }
 
         if (!dl.isEmpty()) {
             soon.addField(DL_TITLE, dl, false);
             hasBosses = true;
-            // timeMessage += DL_TITLE + dl;
         }
 
         if (!frozen.isEmpty()) {
             soon.addField(FROZEN_TITLE, frozen, false);
             hasBosses = true;
-            // timeMessage += FROZEN_TITLE + frozen;
         }
 
         if (!met.isEmpty()) {
             soon.addField(MET_TITLE, met, false);
             hasBosses = true;
-            // timeMessage += MET_TITLE + met;
         }
 
         if (!warden.isEmpty()) {
             soon.addField(WARDEN_TITLE, warden, false);
             hasBosses = true;
-            // timeMessage += WARDEN_TITLE + warden;
         }
 
         if (hasBosses) {
             soon.setTitle("⏳ Boss Times ⏳");
-            // soon.setDescription(timeMessage);
-            // soon.addField("Creator", "Yeek", false);
             soon.setColor(0x630505);
             soon.setFooter("Pinged by " + event.getMember().getUser().getAsTag(),
                     event.getMember().getUser().getAvatarUrl());
@@ -415,8 +399,8 @@ public class CommandController extends ListenerAdapter {
         if (boss.getIsTimed() || boss.getIsDue()) {
             reset(boss, event);
         }
-        new Thread(new RespawnTimer(boss, boss.getRespawn(), this,
-                findServer(event))).start();
+        boss.setIsTimed(true);
+        boss.setCurrentTime(boss.getRespawn());
     }
 
     /**
@@ -434,10 +418,10 @@ public class CommandController extends ListenerAdapter {
         if (minutes < 0) {
             int newMinutes = boss.getRespawn() + minutes;
             boss.setCurrentTime(newMinutes);
-            new Thread(new RespawnTimer(boss, newMinutes, this, findServer(event))).start();
+            boss.setIsTimed(true);
         } else {
             boss.setCurrentTime(minutes);
-            new Thread(new RespawnTimer(boss, minutes, this, findServer(event))).start();
+            boss.setIsTimed(true);
         }
     }
 
@@ -456,10 +440,12 @@ public class CommandController extends ListenerAdapter {
         if (minutes < 0) {
             int newMinutes = boss.getWindow() + minutes;
             boss.setCurrentTime(newMinutes);
-            new Thread(new WindowTimer(boss, newMinutes, this, findServer(event))).start();
+            boss.setIsDue(true);
+            boss.setIsTimed(true);
         } else {
             boss.setCurrentTime(minutes);
-            new Thread(new WindowTimer(boss, minutes, this, findServer(event))).start();
+            boss.setIsDue(true);
+            boss.setIsTimed(true);
         }
     }
 
@@ -470,30 +456,6 @@ public class CommandController extends ListenerAdapter {
      * @param event The event that triggered the command
      */
     public void reset(Boss boss, MessageReceivedEvent event) {
-        RespawnTimer respawnTimer = null;
-        WindowTimer windowTimer = null;
-        for (RespawnTimer t : respawnTimers) {
-            if (t.getBoss() == boss) {
-                t.cancel();
-                respawnTimer = t;
-                break;
-            }
-        }
-
-        if (respawnTimer != null) {
-            respawnTimers.remove(respawnTimer);
-        } else {
-            for (WindowTimer t : windowTimers) {
-                if (t.getBoss() == boss) {
-                    t.cancel();
-                    windowTimer = t;
-                    break;
-                }
-            }
-            if (windowTimer != null) {
-                windowTimers.remove(windowTimer);
-            }
-        }
         boss.setCurrentTime(0);
         boss.setIsDue(false);
         boss.setIsTimed(false);
@@ -808,20 +770,8 @@ public class CommandController extends ListenerAdapter {
         }
     }
 
-    public void addRespawnTimer(RespawnTimer timer) {
-        respawnTimers.add(timer);
-    }
-
-    public void removeRespawnTimer(RespawnTimer timer) {
-        respawnTimers.remove(timer);
-    }
-
-    public void addWindowTimer(WindowTimer timer) {
-        windowTimers.add(timer);
-    }
-
-    public void removeWindowTimer(WindowTimer timer) {
-        windowTimers.remove(timer);
+    public List<Server> getServers() {
+        return servers;
     }
 
 }
