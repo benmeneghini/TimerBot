@@ -14,9 +14,9 @@ public class Main {
     public static JDA jda;
 
     public static void main(String[] args) throws LoginException {
-        // OTQyNTI1OTE5NjczODYwMTM2.GKqeSu.UFZdnh6mGq-mACZ4xk6HGNAkfkCBrvTlmEQWq8 main
+        // OTQyNTI1OTE5NjczODYwMTM2.GLFgJ-.vjInQKCMvt1vhwmqqTyriFLcrcUHaw5kKWUhfw main
         // OTk0NzU5NDA2NjU2OTQ2MjA2.GiK5GM.bWNRWGV6sR5Xtqq9eMGAbLfqRi9IhcNxsnM2DQ test
-        JDA jda = JDABuilder.createDefault("OTQyNTI1OTE5NjczODYwMTM2.GKqeSu.UFZdnh6mGq-mACZ4xk6HGNAkfkCBrvTlmEQWq8")
+        JDA jda = JDABuilder.createDefault("OTQyNTI1OTE5NjczODYwMTM2.GLFgJ-.vjInQKCMvt1vhwmqqTyriFLcrcUHaw5kKWUhfw")
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build();
 
