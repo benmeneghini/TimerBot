@@ -2,8 +2,8 @@ package service;
 
 import java.util.List;
 
-import control.CommandController;
 import model.Server;
+import control.CommandController;
 
 public class Timer implements Runnable {
 
