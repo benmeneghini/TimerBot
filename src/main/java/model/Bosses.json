@@ -4,24 +4,24 @@
         "name": "Dhiothu",
         "nicknames": ["dino", "dhio", "d2"],
         "type": "ENDGAME",
-        "respawn": 2160,
-        "window": 2160
+        "respawn": 2040,
+        "window": 1680
     },
 
     {
         "name": "Bloodthorn",
         "nicknames": ["bt"],
         "type": "ENDGAME",
-        "respawn": 2160,
-        "window": 2160
+        "respawn": 2040,
+        "window": 1680
     },
 
     {
         "name": "Gelebron",
         "nicknames": ["gele"],
         "type": "ENDGAME",
-        "respawn": 2160,
-        "window": 2160
+        "respawn": 1920,
+        "window": 1680
     },
 
     {
@@ -29,7 +29,7 @@
         "nicknames": ["prot", "base", "prime"],
         "type": "ENDGAME",
         "respawn": 1080,
-        "window": 10
+        "window": 15
     },
 
 
@@ -40,32 +40,32 @@
         "name": "Necromancer",
         "nicknames": ["necro"],
         "type": "MIDRAID",
-        "respawn": 1440,
-        "window": 1440
+        "respawn": 1320,
+        "window": 960
     },
 
     {
         "name": "Mordris",
         "nicknames": ["mord", "mordy"],
         "type": "MIDRAID",
-        "respawn": 1440,
-        "window": 1440
+        "respawn": 1200,
+        "window": 960
     },
 
     {
         "name": "Hrungir",
         "nicknames": ["hrung", "muk"],
         "type": "MIDRAID",
-        "respawn": 1440,
-        "window": 1440
+        "respawn": 1320,
+        "window": 960
     },
 
     {
         "name": "Aggorath",
         "nicknames": ["aggy"],
         "type": "MIDRAID",
-        "respawn": 1440,
-        "window": 1440
+        "respawn": 1200,
+        "window": 960
     },
 
 
